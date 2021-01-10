@@ -34,7 +34,7 @@ def look_up(scheme, tag, parents=[]):
     return parents
   
   
-  def xpath_to_sql(query):
+def xpath_to_sql(query):
     """
     converts an XPath query to an SQL equivalent
     """

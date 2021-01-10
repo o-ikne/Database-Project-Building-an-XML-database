@@ -1,6 +1,6 @@
 
 import re
-from encoonding_scheme.encoding_xml_imdb import TravahoHandler
+from encoonding_scheme.encoding_xml_scheme_imdb import TravahoHandler
 
 
 conn = sqlite3.connect('emp_imdb.db')

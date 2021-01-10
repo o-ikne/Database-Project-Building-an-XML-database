@@ -278,6 +278,6 @@ c = conn.cursor()
 
 if __name__ == '__main__':
     parser = xml.sax.make_parser()
-    parser.setContentHandler(TravahoHandler("DBS20/imdb.dtd", "DBS20/imdb-small.xml"))
-    parser.parse(open("DBS20/imdb-small.xml"))
+    parser.setContentHandler(TravahoHandler("imdb.dtd", "imdb-small.xml"))
+    parser.parse(open("imdb-small.xml"))
     conn.close()

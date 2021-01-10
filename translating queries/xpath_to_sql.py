@@ -106,7 +106,7 @@ def look_up(scheme, tag, parents=[]):
                     ## if tag is not a column of table
                     if tag.lower() not in tables[tags[0]]:
                         ## add joint and where conditions
-                        join_cndts += f""" JOIN {tags[0].upper()} ON ({tags[0]}.{table}_ID = {table}.ID)"""
+                        join_cndts += f""" JOIN {tags[0].upper()} ON ({tags[0].upper()}.{table}_ID = {table}.ID)"""
                         where_cndts += [f""" {tag}={value}"""]
                     ## otherwise
                     else:

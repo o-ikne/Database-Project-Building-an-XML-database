@@ -3,12 +3,12 @@ import re
 from enconding_scheme.encoding_xml_imdb import TravahoHandler
 
 
-conn = sqlite3.connect('emp_3.db')
+conn = sqlite3.connect('emp_imdb.db')
 conn.row_factory = sqlite3.Row
 c = conn.cursor()
 
 parser = xml.sax.make_parser()
-handler = TravahoHandler("DBS20/imdb.dtd", "DBS20/imdb-small.xml")
+handler = TravahoHandler("imdb.dtd", "imdb-small.xml")
 parser.setContentHandler(handler)
 
 ## the tags of xml and their attributes

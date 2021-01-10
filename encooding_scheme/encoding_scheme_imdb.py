@@ -278,5 +278,5 @@ if __name__ == '__main__':
     parser = xml.sax.make_parser()
     handler = TravahoHandler("imdb.dtd", "imdb-small.xml")
     parser.setContentHandler(handler)
-    parser.parse(open("imdb.dtd"))
+    parser.parse(open("imdb-small.xml"))
     conn.close()

@@ -1,4 +1,6 @@
 
+import sys
+import os
 import re
 import sqlite3
 import xml.sax 
@@ -10,6 +12,7 @@ conn = sqlite3.connect('emp_imdb.db')
 conn.row_factory = sqlite3.Row
 c = conn.cursor()
 
+sys.stdout = open(os.devnull, 'w')
 parser = xml.sax.make_parser()
 handler = TravahoHandler("imdb.dtd", "imdb-small.xml")
 parser.setContentHandler(handler)

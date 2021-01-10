@@ -17,7 +17,7 @@ class TravahoHandler(xml.sax.ContentHandler):
         self.tree = ET.parse(xml_file)
         self.get_tags()
         self.execute_commands()
-        self.id_movie = None
+        self.id_movie = 1
         
     def get_tables(self):
         """return the tables and their attributes from the DTD file"""
@@ -153,7 +153,6 @@ class TravahoHandler(xml.sax.ContentHandler):
 
     def startElement(self, xml_name, xml_attrs):
         xml_name = xml_name.replace('-', '_')
-        
         ## set self.inside_xml_name = True and initiate self.nom_xmml_name
         if 'inside_'+xml_name in self.__dict__:
             exec("%s = %s" % ('self.inside_'+xml_name, True))
@@ -171,31 +170,41 @@ class TravahoHandler(xml.sax.ContentHandler):
                 exec(attribute.upper() +  "= xml_attrs[attribute].strip()")
             else:
                 exec(attribute.upper() + " = False")
-        
+                
+        attributes = list(map(lambda x: x.split()[0].upper(), self.tables[xml_name]))
+        variables  = list(map(eval, attributes))
+        exec("%s = %s" % ('self.variables', variables))
+        exec("%s = %s" % ('self.attributes', attributes))
         ## in case the number of attributes is 1 (just because we have a problem with 'tuple' function)
         ## tuple(1) = (1,)
-        if len(self.tables[xml_name]) == 1:
-            attributes = list(map(lambda x: x.split()[0].upper(), self.tables[xml_name]))
-            variables = list(map(eval, attributes))
-            exec("%s = %s" % ('self.variables', variables))
-            exec("%s = %s" % ('self.attributes', attributes))
-            
+        
+        if len(self.tables[xml_name]) == 1:            
             ## execute the command
-            c.execute(f"""INSERT INTO {xml_name.upper()} ({attributes[0]}) VALUES ('{variables[0]}')""")
-                    
+            
+            if 'inside_'+xml_name in self.__dict__ and eval('self.inside_'+xml_name):
+                if (e:=eval('self.nom_'+xml_name)):
+                    variables[0] = e
+            if any(variables):
+                cmd = f"""INSERT INTO {xml_name.upper()}({attributes[0]}) VALUES ('{variables[0]}')"""
+                c.execute(cmd)
+
         elif len(self.tables[xml_name]) > 1:
-            attributes = list(map(lambda x: x.split()[0].upper(), self.tables[xml_name]))
-            variables  = list(map(eval, attributes))
-            exec("%s = %s" % ('self.variables', variables))
-            exec("%s = %s" % ('self.attributes', attributes))
-            try:
-                c.execute(f"""INSERT INTO {xml_name.upper()}{tuple(attributes)} VALUES {tuple(variables)}""")
+            try:        
+                if 'inside_'+xml_name in self.__dict__ and eval('self.inside_'+xml_name):
+                    if (e:=eval('self.nom_'+xml_name)):
+                        variables[0] = e
+                if any(variables):
+                    cmd = f"""INSERT INTO {xml_name.upper()}{tuple(attributes)} VALUES {tuple(variables)}"""
+                    c.execute(cmd)
+                            
             except Exception as e:
                 print("ERROR WHILE INSERTING DATA")
                 print('__________________________________________________________________')
                 print(e)
                 print(variables)
                 print('__________________________________________________________________')
+                
+
 
     def characters(self, text):
         for table in self.tables:
@@ -203,17 +212,13 @@ class TravahoHandler(xml.sax.ContentHandler):
             ## if we are inside the table
             if 'inside_'+table in self.__dict__ and eval('self.inside_'+table):
                 if text.strip():
-                    ## add the text to the nom_table
-                    a = eval('self.nom_'+table)
-                    if len(a) > 0:
-                        a += ', '
-                    a += text.strip()    
+                    a = text.strip()
                     exec("%s = %s" % ('self.nom_'+table, "a"))
             
  
     def endElement(self, xml_name):
         xml_name = xml_name.replace('-', '_')
-        if 'inside_'+xml_name in self.__dict__:
+        if 'inside_' + xml_name in self.__dict__:
             ## get attributes and values
             attributes = self.attributes
             variables  = self.variables
@@ -230,35 +235,35 @@ class TravahoHandler(xml.sax.ContentHandler):
             
             ## fetch one element if matching
             d = c.fetchone()
-            if d:
-                
-                e = d[f'ID']
-                self.id_movie = e
-            ## otherwise take the lastone as id
-            else:
+
+            if any(variables):
                 ## execute command
                 if len(variables) == 1:
                     cmd = f"""INSERT INTO {xml_name.upper()}({attributes}) VALUES ('{variables[0]}')"""
                 else:
                     cmd = f"""INSERT INTO {xml_name.upper()}({attributes}) VALUES {tuple(variables)}"""
                 c.execute(cmd)
-                self.id_movie = c.lastrowid
-            exec("%s = %s" % ('self.inside_' + xml_name, False))
-        else:
-            ## update tables
-            c_table = xml_name
-            if xml_name in self.switcher:
-                xml_name = self.switcher[xml_name]
-            if xml_name in self.tag_tables and (tag:=self.fetch_id(xml_name)):
-                exec("%s = %s" % ('self.id_' + xml_name, c.lastrowid))
-                try:
-                    cmd = f"""UPDATE {xml_name.upper()} SET {tag.upper()}_ID = ? WHERE ID = ? """
-                    print(cmd, (eval('self.id_'+tag)), eval('self.id_'+xml_name))
-                    c.execute(cmd, (eval('self.id_'+tag), eval('self.id_'+xml_name)))
-                except Exception as e:
-                    print("=================>", e)
             
-        
+                
+            exec("%s = %s" % ('self.inside_' + xml_name, False))
+
+        c_table = xml_name
+        if xml_name in self.switcher:
+            xml_name = self.switcher[xml_name]
+
+        if xml_name.replace('_','-') in self.tag_tables and (tag:=self.fetch_id(xml_name.replace('_','-') )):
+            try:
+                exec("%s = %s" % ('self.id_' + xml_name, c.lastrowid))
+                cmd = f"""UPDATE {xml_name.upper()} SET {tag.upper()}_ID = ? WHERE ID = ? """
+                c.execute(cmd, (eval('self.id_'+tag), eval('self.id_'+xml_name)))
+            except Exception as e:
+                print("=================>", e)
+                
+                
+                
+        if xml_name =='movie':
+            #self.id_movie = c.lastrowid
+            self.id_movie += 1
 
     def endDocument(self):
         print('\n')
@@ -266,7 +271,6 @@ class TravahoHandler(xml.sax.ContentHandler):
         print('===================')
         print('DATA HAS BEEN INSTERTED SUCCESSFULLY')
         conn.commit()
-
 
 conn = sqlite3.connect('emp_2.db')
 conn.row_factory = sqlite3.Row

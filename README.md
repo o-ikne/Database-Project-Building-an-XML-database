@@ -1,4 +1,4 @@
-![GitHub Contributors Image](https://contrib.rocks/image?repo=o-ikne/Database-Project-Building and XML database)
+![GitHub Contributors Image](https://contrib.rocks/image?repo=o-ikne/Database-Project-Building-an-XML-database)
 [![Generic badge](https://img.shields.io/badge/Made_With-Python-<COLOR>.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/Library-sqlite3_xml-red.svg)](https://shields.io/)
 [![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)

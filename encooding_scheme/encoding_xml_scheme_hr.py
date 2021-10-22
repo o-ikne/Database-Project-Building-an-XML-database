@@ -211,6 +211,6 @@ c = conn.cursor()
 
 if __name__ == '__main__':
     parser = xml.sax.make_parser()
-    parser.setContentHandler(TravahoHandler("rh.dtd", 'rh.xml'))
-    parser.parse(open('rh.xml'))
+    parser.setContentHandler(TravahoHandler("xml-sax/rh.dtd", 'xml-sax/rh.xml'))
+    parser.parse(open('xml-sax/rh.xml'))
     conn.close()

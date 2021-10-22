@@ -5,7 +5,7 @@
 ![visitor badge](https://visitor-badge.glitch.me/badge?page_id=o-ikne.Database-Project-Building-an-XML-database)
 
 # __Database-Project__
-This project is realized by me and Zakaria Boulkhir as a database course project in the Master 1 of data science at the university of Lille.
+This project is realized by Zakaria Boulkhir and me as a database course project in the Master 1 of data science at the university of Lille.
 
 ### __Overview__
 

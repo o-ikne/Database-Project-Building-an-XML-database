@@ -1,0 +1,13 @@
+<!ELEMENT rh (employe*)>
+
+<!ELEMENT employe (departement)>
+<!ATTLIST employe
+          nom CDATA #REQUIRED
+          prenom CDATA #REQUIRED
+          salaire CDATA #REQUIRED
+          taux CDATA #IMPLIED>
+
+<!ELEMENT departement (#PCDATA)>
+<!ATTLIST departement
+          ville CDATA #REQUIRED>
+

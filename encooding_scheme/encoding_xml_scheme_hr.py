@@ -205,7 +205,7 @@ class TravahoHandler(xml.sax.ContentHandler):
 
 
 
-conn = sqlite3.connect('emp_4.db')
+conn = sqlite3.connect('xml-sax/emp-rh.db')
 conn.row_factory = sqlite3.Row
 c = conn.cursor()
 

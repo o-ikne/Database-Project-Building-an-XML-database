@@ -22,3 +22,12 @@ The main steps of this project are:
 - Proposing an automated testing approach to verify that the system is working correctly.
   
 - Developing a protocol for experimental comparison of the querying (time) performance of the system and an existing __XML__ query system.
+
+
+### __Installation__
+
+To try our implementation in your own machine you need to install the following requirements:
+
+```python
+pip install -r requirements.txt
+```

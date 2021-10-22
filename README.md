@@ -4,10 +4,10 @@
 [![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)
 ![visitor badge](https://visitor-badge.glitch.me/badge?page_id=o-ikne.Database-Project-Building-an-XML-database)
 
-# Database-Project
+# __Database-Project__
 This project is realized by me and Zakaria Boulkhir as a database course project in the Master 1 of data science at the university of Lille.
 
-## Overview
+### __Overview__
 
 The goal of this project is to implement an algorithm to import an __XML__ document into an __SQL__ relational database, and translating the largest possible fragment of __XPath__ to equivalent __SQL__ queries using Python.
 

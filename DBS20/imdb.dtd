@@ -1,0 +1,40 @@
+<!ELEMENT imdb (movie*)>
+
+<!ELEMENT movie (alternative-titles?,genres?,crew,cast,ratings?)>
+<!ATTLIST movie
+          title CDATA #IMPLIED
+          year CDATA #IMPLIED
+          lang CDATA #IMPLIED
+          adult (yes|no) #IMPLIED
+          runtime CDATA #IMPLIED>
+
+<!ELEMENT alternative-titles (title+)>
+<!ELEMENT title (#PCDATA)>
+<!ATTLIST title
+          region CDATA #IMPLIED
+          lang CDATA #IMPLIED>
+
+<!ELEMENT genres (genre+)>
+<!ELEMENT genre (#PCDATA)>
+
+<!ELEMENT cast (actor*)>
+<!ELEMENT actor EMPTY>
+<!ATTLIST actor
+          name CDATA #IMPLIED
+          born CDATA #IMPLIED
+          died CDATA #IMPLIED
+          role CDATA #IMPLIED
+          >
+
+<!ELEMENT crew (crew-member*)>
+<!ELEMENT crew-member EMPTY>
+<!ATTLIST crew-member
+          name CDATA #IMPLIED
+          born CDATA #IMPLIED
+          died CDATA #IMPLIED
+          job (writer|director|producer|composer|cinematographer|editor) #REQUIRED>
+
+<!ELEMENT ratings EMPTY>
+<!ATTLIST ratings 
+          average CDATA #REQUIRED
+          votes CDATA #REQUIRED>

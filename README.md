@@ -23,6 +23,8 @@ The main steps of this project are:
   
 - Developing a protocol for experimental comparison of the querying (time) performance of the system and an existing __XML__ query system.
 
+### __Data__
+The data for this project is compsed of two databases, the first is for __employe__ XML database (` `), and the second one is __movie__ XML database (` `)
 
 ### __Installation__
 

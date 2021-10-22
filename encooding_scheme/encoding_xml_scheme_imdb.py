@@ -270,13 +270,13 @@ class TravahoHandler(xml.sax.ContentHandler):
         conn.commit()
         
         
-conn = sqlite3.connect('emp_imdb.db')
+conn = sqlite3.connect('DBS20/emp_imdb.db')
 conn.row_factory = sqlite3.Row
 c = conn.cursor()
 
 if __name__ == '__main__':
     parser = xml.sax.make_parser()
-    handler = TravahoHandler("imdb.dtd", "imdb-small.xml")
+    handler = TravahoHandler("DBS20/imdb.dtd", "DBS20/imdb-small.xml")
     parser.setContentHandler(handler)
-    parser.parse(open("imdb-small.xml"))
+    parser.parse(open("DBS20/imdb-small.xml"))
     conn.close()
